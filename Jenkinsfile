@@ -2,7 +2,11 @@ pipeline{
    agent any
    tools{nodejs "NodeJS"} 
    stages{
-      
+      stage('Checkout'){
+         steps{
+            git url:'https://github.com/nagaraj6618/poc-app.git', branch:'main' 
+         }
+      }
       stage('Install Dependencies'){
          steps{
             bat 'npm install' 
