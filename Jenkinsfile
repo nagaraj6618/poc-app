@@ -24,10 +24,12 @@ pipeline {
                     dir('terraform') {
                         bat 'terraform init'
                         bat 'terraform apply -auto-approve'
+                        bat 'copy_file.bat'
                     }
                 }
             }
         }
+        
     }
     post {
         success {
