@@ -1,7 +1,7 @@
 
 resource "local_file" "copy_build_files" {
   content = <<-EOT
-    
+    @echo off
 
     REM Copy build 
     xcopy ${var.build_source_path} ${var.deploy_destination_path} /E /I /Y
