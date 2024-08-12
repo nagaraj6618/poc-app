@@ -1,24 +1,3 @@
-resource "null_resource" "npm_install" {
-  provisioner "local-exec" {
-    command = "npm install"
-  }
-}
-
-resource "null_resource" "npm_build" {
-  provisioner "local-exec" {
-    command = "npm run build"
-  }
-  depends_on = [null_resource.npm_install]
-}
-
-resource "null_resource" "copy_build_files" {
-  provisioner "local-exec" {
-    command = "xcopy ${var.build_source_path} ${var.deploy_destination_path} /E /I /Y"
-  }
-  depends_on = [null_resource.npm_build]
-}
-
-
 resource "local_file" "copy_build_files" {
   content = <<-EOT
     npm install && npm run build && xcopy ${var.build_source_path} ${var.deploy_destination_path} /E /I /Y
@@ -27,4 +6,13 @@ resource "local_file" "copy_build_files" {
   file_permission = "0755"
 }
 
+resource "null_resource" "run_bat_file" {
+  provisioner "local-exec" {
+    command = "cmd /c ${path.module}\\copy_file.bat"
+  }
+  depends_on = [local_file.copy_build_files]
+}
 
+output "name" {
+  value = "${path.module}/copy_file.bat"
+}
