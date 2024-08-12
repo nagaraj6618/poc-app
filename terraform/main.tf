@@ -1,16 +1,22 @@
 
-resource "local_file" "copy_build_files" {
-  content = <<-EOT
-
-
-    REM Copy build 
-    xcopy ${var.build_source_path} ${var.deploy_destination_path} /E /I /Y
-
-    REM Delete build
-    rmdir /s /q ${var.build_source_path} 
+resource "null_resource" "build_files" {
+  provisioner "local-exec"{
+    command = <<-EOT
+    start  npm install && npm run build
+    start xcopy ${var.build_source_path} ${var.deploy_destination_path} /E /I /Y
   EOT
-  filename = "${path.module}/copy_file.bat"
-  file_permission = "0755"
+  }
+}
+
+resource "null_resource" "copy_files" {
+  provisioner "local-exec"{
+    command = <<-EOT
+    start xcopy ${var.build_source_path} ${var.deploy_destination_path} /E /I /Y
+  EOT
+  }
+}
+output "server_url" {
+  value = "http://localhost:8041"
 }
 
 
