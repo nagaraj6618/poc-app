@@ -1,26 +1,19 @@
-
-resource "null_resource" "build_files" {
-  provisioner "local-exec"{
-    command = <<-EOT
-    start  npm install && npm run build
-  EOT
-  }
-  provisioner "local-exec"{
-    command = <<-EOT
-    start xcopy ${var.build_source_path} ${var.deploy_destination_path} /E /I /Y
-  EOT
+resource "null_resource" "npm_install" {
+  provisioner "local-exec" {
+    command = "npm install"
   }
 }
 
-resource "null_resource" "copy_files" {
-  provisioner "local-exec"{
-    command = <<-EOT
-    start xcopy ${var.build_source_path} ${var.deploy_destination_path} /E /I /Y
-  EOT
+resource "null_resource" "npm_build" {
+  provisioner "local-exec" {
+    command = "npm run build"
   }
-}
-output "server_url" {
-  value = "http://localhost:8041"
+  depends_on = [null_resource.npm_install]
 }
 
-
+resource "null_resource" "copy_build_files" {
+  provisioner "local-exec" {
+    command = "xcopy ${var.build_source_path} ${var.deploy_destination_path} /E /I /Y"
+  }
+  depends_on = [null_resource.npm_build]
+}
