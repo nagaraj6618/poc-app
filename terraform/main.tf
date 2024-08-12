@@ -2,6 +2,9 @@
 resource "local_file" "copy_build_files" {
   content = <<-EOT
     @echo off
+    REM Redirect to source 
+    cd ${var.source_path}
+
     REM Npm install command
     npm install
 

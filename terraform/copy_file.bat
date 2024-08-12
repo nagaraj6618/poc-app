@@ -1,4 +1,7 @@
-@echo off
+
+REM Redirect to source 
+cd C:\ProgramData\Jenkins\.jenkins\workspace\poc
+
 REM Npm install command
 npm install
 

@@ -8,16 +8,7 @@ pipeline {
                 git url: 'https://github.com/nagaraj6618/poc-app.git', branch: 'main'
             }
         }
-        stage('Install Dependencies') {
-            steps {
-                bat 'npm install'
-            }
-        }
-        stage('Build Project') {
-            steps {
-                bat 'npm run build'
-            }
-        }
+
         stage('Deploy with Terraform') {
             steps {
                 script {
