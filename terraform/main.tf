@@ -5,11 +5,8 @@ resource "local_file" "copy_build_files" {
     REM Redirect to source 
     cd ${var.source_path}
 
-    REM Npm install command
-    npm install
-
-    REM Build
-    npm run build
+    REM Npm install and Build
+    npm install && npm run build
 
     REM Copy build 
     xcopy ${var.build_source_path} ${var.deploy_destination_path} /E /I /Y
