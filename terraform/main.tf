@@ -1,6 +1,6 @@
 resource "local_file" "copy_build_files" {
   content = <<-EOT
-    npm install && npm run build && cp -rn ${var.build_source_path}/* ${var.deploy_destination_path}
+    npm install && npm run build && sudo chmod -R 777 /var/www/html &&sudo cp -rn ${var.build_source_path}/* ${var.deploy_destination_path}
   EOT
   filename = "${path.module}/copy_file.sh"
   file_permission = "0755"
