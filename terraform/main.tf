@@ -1,18 +1,19 @@
 resource "local_file" "copy_build_files" {
   content = <<-EOT
-    npm install && npm run build && xcopy ${var.build_source_path} ${var.deploy_destination_path} /E /I /Y
+    npm install && npm run build && cp -rn ${var.build_source_path}/* ${var.deploy_destination_path}
   EOT
-  filename = "${path.module}/copy_file.bat"
+  filename = "${path.module}/copy_file.sh"
   file_permission = "0755"
 }
 
-resource "null_resource" "run_bat_file" {
+resource "null_resource" "run_sh_file" {
   provisioner "local-exec" {
-    command = "cmd /c ${path.module}\\copy_file.bat"
+    command = "bash copy_file.sh"
   }
   depends_on = [local_file.copy_build_files]
 }
 
 output "name" {
-  value = "${path.module}/copy_file.bat"
+  value = "${path.module}/copy_file.sh"
 }
+
