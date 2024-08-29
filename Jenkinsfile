@@ -13,8 +13,8 @@ pipeline {
             steps {
                 script {
                     dir('terraform') {
-                        bat 'terraform init'
-                        bat 'terraform apply -auto-approve'
+                        sh 'terraform init'
+                        sh 'terraform apply -auto-approve'
                     }
                 }
             }
