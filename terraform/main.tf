@@ -8,7 +8,9 @@ resource "null_resource" "run_sh_file" {
       npm install
       npm run build
       whoami
-      cp -rf /build /var/www/html
+      ls
+      cp -rf /var/lib/jenkins/workspace/poc-app/build/* /var/www/html
+      echo "Finished"
 EOF
   }
 }
