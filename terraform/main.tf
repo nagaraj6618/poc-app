@@ -7,7 +7,7 @@ resource "null_resource" "run_sh_file" {
     command = <<EOF
       npm install
       npm run build
-      sudo cp -rf ../build/* /var/www/html
+      sudo cp -rf ${var.build_source_path}/* /var/www/html
       echo "Finished"
 EOF
   }
