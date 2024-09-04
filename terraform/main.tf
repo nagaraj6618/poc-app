@@ -5,11 +5,12 @@ resource "null_resource" "run_sh_file" {
 
   provisioner "local-exec" {
     command = <<EOF
+      ssh-keyscan -H localhost >> ~/.ssh/known_hosts
       npm install
       npm run build
       whoami
       ls
-      cp -rf /var/lib/jenkins/workspace/poc-app/build/* /var/www/html
+      ssh -o StrictHostKeyChecking=no localhost sudo cp -rf /var/lib/jenkins/workspace/poc-app/build/* /var/www/html
       echo "Finished"
 EOF
   }
