@@ -5,10 +5,10 @@ resource "null_resource" "run_sh_file" {
 
   provisioner "local-exec" {
     command = <<EOF
-      cd /home/nagaraj-per/Desktop/poc/poc-app
       npm install
       npm run build
       whoami
+      cp -rf /build /var/www/html
 EOF
   }
 }
